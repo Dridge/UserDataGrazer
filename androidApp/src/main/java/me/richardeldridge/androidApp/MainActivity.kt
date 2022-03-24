@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
                 // go to the next activity and reset the login
                 val intent = Intent(this, UserDataActivity::class.java)
                 intent.putExtra("username", usernameText)
+                intent.putExtra("password", passwordText)
                 resetLogin(username, password)
                 startActivity(intent)
             } else {

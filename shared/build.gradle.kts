@@ -32,6 +32,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("com.google.android.material:material:1.5.0")
+                implementation("com.squareup.okhttp3:okhttp:4.5.0")
+                implementation("com.google.code.gson:gson:2.9.0")
             }
         }
         val androidTest by getting {
