@@ -13,6 +13,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
         classpath("com.android.tools.build:gradle:7.0.4")
         classpath("com.squareup.okhttp3:okhttp:4.5.0")
+        classpath("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
         classpath("com.google.code.gson:gson:2.9.0")
     }
 }
@@ -28,6 +29,8 @@ allprojects {
 }
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("test"))
+    implementation("junit:junit:4.13")
 }
 
 

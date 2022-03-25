@@ -14,14 +14,20 @@
             android:background="#FFFFFF"
             android:padding="25dp"
             android:orientation="vertical">
-
         <TextView
+                android:id="@+id/userData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:textColor="#000000"
-                android:padding="30dp"
-                android:text="data to display"/>
+                android:padding="30dp"/>
+        <Button style="?android:attr/buttonBarButtonStyle"
+                android:id="@+id/showUsers"
+                android:text="@string/show_users"
+                android:textAllCaps="false"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

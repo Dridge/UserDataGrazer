@@ -34,11 +34,12 @@ kotlin {
                 implementation("com.google.android.material:material:1.5.0")
                 implementation("com.squareup.okhttp3:okhttp:4.5.0")
                 implementation("com.google.code.gson:gson:2.9.0")
+                implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
             }
         }
         val androidTest by getting {
             dependencies {
-                implementation("junit:junit:4.13")
+                implementation(kotlin("test"))
             }
         }
         val iosMain by getting
