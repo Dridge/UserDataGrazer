@@ -7,7 +7,6 @@ pluginManagement {
 }
 rootProject.name = "UserData"
 
-
 include(":androidApp")
 include(":shared")
 

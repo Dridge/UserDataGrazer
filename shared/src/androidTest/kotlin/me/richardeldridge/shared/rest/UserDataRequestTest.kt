@@ -6,7 +6,7 @@ class UserDataRequestTest {
 
     @Test
     fun testRestCallDoesNotThrowAnError() {
-        val underTest = UserDataRequest()
+        val underTest = UserDataRetriever()
         underTest.getUsers("t5", "blah");
     }
 }

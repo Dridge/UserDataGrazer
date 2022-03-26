@@ -16,6 +16,10 @@ dependencies {
     implementation("com.google.android.material:material:1.5.0")
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
     implementation("com.google.code.gson:gson:2.9.0")
+    //    //https://github.com/mannodermaus/android-junit5
+    // (Required) Writing and executing Unit Tests on the JUnit Platform
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
 android {

@@ -29,10 +29,7 @@ allprojects {
 }
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("test"))
-    implementation("junit:junit:4.13")
 }
-
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
@@ -41,4 +38,8 @@ compileKotlin.kotlinOptions {
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "11"
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

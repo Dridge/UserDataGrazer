@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main_view"
+        android:id="@+id/activity_userdata"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".UserDataActivity">
@@ -14,7 +14,7 @@
             android:background="#FFFFFF"
             android:padding="25dp"
             android:orientation="vertical">
-        <TextView
+        <ListView
                 android:id="@+id/userData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -22,8 +22,8 @@
                 android:textColor="#000000"
                 android:padding="30dp"/>
         <Button style="?android:attr/buttonBarButtonStyle"
-                android:id="@+id/showUsers"
-                android:text="@string/show_users"
+                android:id="@+id/getUsers"
+                android:text="@string/get_users"
                 android:textAllCaps="false"
                 android:textColor="#000000"
                 android:layout_width="wrap_content"

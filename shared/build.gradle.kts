@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -35,11 +33,14 @@ kotlin {
                 implementation("com.squareup.okhttp3:okhttp:4.5.0")
                 implementation("com.google.code.gson:gson:2.9.0")
                 implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
+                implementation("com.squareup.retrofit2:retrofit:2.6.3")
+                implementation("com.squareup.retrofit2:converter-gson:2.6.3")
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
             }
         }
         val iosMain by getting
@@ -58,18 +59,3 @@ android {
         viewBinding = true
     }
 }
-
-val packForXcode by tasks.creating(Sync::class) {
-    group = "build"
-    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-    val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
-    val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
-    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
-    inputs.property("mode", mode)
-    dependsOn(framework.linkTask)
-    val targetDir = File(buildDir, "xcode-frameworks")
-    from({ framework.outputDirectory })
-    into(targetDir)
-}
-
-tasks.getByName("build").dependsOn(packForXcode)
