@@ -3,7 +3,7 @@ package me.richardeldridge.shared.rest
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.richardeldridge.shared.GrazerService
 import me.richardeldridge.shared.pojos.auth.Authenticate
-import me.richardeldridge.shared.pojos.users.Users
+import me.richardeldridge.shared.pojos.users.User
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,14 +42,14 @@ class UserDataRetriever() {
      */
     private fun doAuthenticatedGetCall(authenticateCall: Call<Authenticate>): String {
 
-        val call: Call<Users> = service.retrieveUserData("Bearer TODO")
-        call.enqueue(object : Callback<Users> {
-            override fun onResponse(call: Call<Users>, response: retrofit2.Response<Users>) {
-                val userResponse: Users? = response.body()
+        val call: Call<User> = service.retrieveUserData("Bearer TODO")
+        call.enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>, response: retrofit2.Response<User>) {
+                val userResponse: User? = response.body()
                 println("User response received:")
                 println(userResponse)
             }
-            override fun onFailure(call: Call<Users>, t: Throwable) {
+            override fun onFailure(call: Call<User>, t: Throwable) {
                 println("ERROR - failure whilst getting users data")
             }
         })

@@ -3,7 +3,7 @@ package me.richardeldridge.shared.pojos.users
 import com.google.gson.annotations.SerializedName
 
 
-data class Users (
+data class User (
 
   @SerializedName("name")
   var name         : String? = null,

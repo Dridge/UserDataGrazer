@@ -1,7 +1,7 @@
 package me.richardeldridge.shared
 
 import me.richardeldridge.shared.pojos.auth.Authenticate
-import me.richardeldridge.shared.pojos.users.Users
+import me.richardeldridge.shared.pojos.users.User
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -15,6 +15,6 @@ interface GrazerService {
 
     @Headers("Content-Type: application/json;charset=UTF-8")
     @GET("/users")
-    fun retrieveUserData(@Header("Authorization") auth: String ): Call<Users>
+    fun retrieveUserData(@Header("Authorization") auth: String ): Call<User>
 
 }
