@@ -14,7 +14,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".UserDataActivity" android:exported="true"
+                android:name=".userData.UserDataActivity" android:exported="true"
                 android:label="Show User Data" >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"

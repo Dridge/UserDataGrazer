@@ -17,10 +17,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.squareup.picasso:picasso:2.5.2")
-    //    //https://github.com/mannodermaus/android-junit5
-    // (Required) Writing and executing Unit Tests on the JUnit Platform
+    implementation("com.squareup.retrofit2:retrofit:2.6.3")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 }
 
 android {

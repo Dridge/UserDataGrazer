@@ -35,6 +35,7 @@ kotlin {
                 implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2")
                 implementation("com.squareup.retrofit2:retrofit:2.6.3")
                 implementation("com.squareup.retrofit2:converter-gson:2.6.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
             }
         }
         val androidTest by getting {

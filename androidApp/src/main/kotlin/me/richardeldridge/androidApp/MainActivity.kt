@@ -2,12 +2,18 @@ package me.richardeldridge.androidApp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.runBlocking
+import me.richardeldridge.androidApp.userData.UserDataActivity
+import me.richardeldridge.shared.rest.Authenticator
 
 class MainActivity : AppCompatActivity() {
+    private val apiResponseTimeLimitMs = 10000L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,28 +23,35 @@ class MainActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.password)
         val reset = findViewById<Button>(R.id.reset)
         val submit = findViewById<Button>(R.id.submit)
-
+        val spinner = findViewById<ProgressBar>(R.id.progressBar);
         reset.setOnClickListener {
             resetLogin(username, password)
         }
         submit.setOnClickListener {
-            val usernameText = username.text
-            val passwordText = password.text
-
-            //accept most username and password combinations for now
-            if (isValidPassword(passwordText.toString())) {
-                Toast.makeText(this@MainActivity, "Welcome $usernameText!", Toast.LENGTH_LONG).show()
-                // go to the next activity and reset the login
-                val intent = Intent(this, UserDataActivity::class.java)
-                intent.putExtra("username", usernameText)
-                intent.putExtra("password", passwordText)
-                resetLogin(username, password)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this@MainActivity, "Password not permitted, alpha numeric only.", Toast.LENGTH_LONG).show()
-                resetLogin(username, password)
-            }
+            spinner.visibility = View.VISIBLE
+            val usernameString = username.text.toString()
+            val passwordString = password.text.toString()
+            val auth = Authenticator()
+            runBlocking { auth.login(usernameString, passwordString) }
+            val intent = Intent(this, UserDataActivity::class.java)
+            intent.putExtra("username", usernameString)
+            intent.putExtra("token", auth.token)
+            startActivity(intent)
+            resetLogin(username, password)
+            spinner.visibility = View.GONE
         }
+    }
+
+    private fun isLoggedIn(usernameString: String, passwordString: String, auth: Authenticator): Boolean {
+        if (isUsernameOrPasswordBlank(usernameString, passwordString)) {
+            Toast.makeText(this@MainActivity, "Password not permitted, alpha numeric only.", Toast.LENGTH_LONG).show()
+        } else if (auth.isAuthenticated()) {
+            Toast.makeText(this@MainActivity, "Welcome $usernameString!", Toast.LENGTH_LONG).show()
+            return true
+        } else {
+            Toast.makeText(this@MainActivity, "Login denied, are your details correct?", Toast.LENGTH_LONG).show()
+        }
+        return false
     }
 
     private fun resetLogin(username: EditText, password: EditText) {
@@ -47,14 +60,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Only allow alphanumerical characters for passwords at the moment
-     * Force at least one number and one character
+     * Don't allow empty inputs
      */
-    private fun isValidPassword(password: String): Boolean {
-        val isNumberInPassword = password.contains(Regex("[0-9]"))
-        println("isNumberInPassword: $isNumberInPassword")
-        val isCharactersInPassword = password.contains(Regex("[a-zA-Z]"))
-        println("isCharactersInPassword: $isCharactersInPassword")
-        return isNumberInPassword && isCharactersInPassword
+    private fun isUsernameOrPasswordBlank(username: String, password: String): Boolean {
+        return username.isBlank() && password.isBlank()
     }
 }
