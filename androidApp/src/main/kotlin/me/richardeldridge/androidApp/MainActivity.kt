@@ -30,7 +30,7 @@ class MainActivity : IAuthenticationObserver, AppCompatActivity() {
             val usernameString = username.text.toString()
             val passwordString = password.text.toString()
             if (isUsernameOrPasswordBlank(usernameString, passwordString)) {
-                Toast.makeText(this@MainActivity, "Please enter username and password.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "Please enter both username and password.", Toast.LENGTH_LONG).show()
             } else {
                 runBlocking { Authenticator.getInstance().login(usernameString, passwordString) }
                 val intent = Intent(this, UserDataActivity::class.java)
@@ -49,7 +49,7 @@ class MainActivity : IAuthenticationObserver, AppCompatActivity() {
      * Don't allow empty inputs
      */
     private fun isUsernameOrPasswordBlank(username: String, password: String): Boolean {
-        return username.isBlank() && password.isBlank()
+        return username.isBlank() || password.isBlank()
     }
 
     override fun update() {
