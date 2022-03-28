@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import me.richardeldridge.androidApp.R
+import me.richardeldridge.shared.pojos.users.UserData
 import me.richardeldridge.shared.pojos.users.Users
 import me.richardeldridge.shared.rest.authentication.Authenticator
 import me.richardeldridge.shared.rest.authentication.IAuthenticationObserver
@@ -16,8 +17,9 @@ import me.richardeldridge.shared.rest.authentication.IAuthenticationObserver
 /**
  * Based on the tutorial explained here: https://www.raywenderlich.com/155-android-listview-tutorial-with-kotlin
  */
-class UserDataAdapter(private val context: Context, private val dataSource: ArrayList<Users>) : IAuthenticationObserver, BaseAdapter() {
-    init { //TODO why does this need to be an observer?
+class UserDataAdapter(private val context: Context,
+                      private val dataSource: ArrayList<UserData>) : IAuthenticationObserver, BaseAdapter() {
+    init {
         Authenticator.add(this)
     }
     private val inflater: LayoutInflater

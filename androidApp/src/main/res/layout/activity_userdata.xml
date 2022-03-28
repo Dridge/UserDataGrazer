@@ -15,10 +15,11 @@
             android:padding="25dp"
             android:orientation="vertical">
         <ListView
-                android:id="@+id/userDataListView"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
+            android:id="@+id/userDataListView"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
         <Button style="?android:attr/buttonBarButtonStyle"
+                android:background="@drawable/button_shaded_selector"
                 android:id="@+id/getUsers"
                 android:text="@string/get_users"
                 android:textAllCaps="false"

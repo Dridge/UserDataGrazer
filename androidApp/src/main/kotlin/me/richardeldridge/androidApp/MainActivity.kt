@@ -25,6 +25,7 @@ class MainActivity : IAuthenticationObserver, AppCompatActivity() {
         auth?.add(this)
         reset.setOnClickListener {
             resetLogin(username, password)
+            Toast.makeText(this@MainActivity, "Reset login details.", Toast.LENGTH_LONG).show()
         }
         submit.setOnClickListener {
             val usernameString = username.text.toString()

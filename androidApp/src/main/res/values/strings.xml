@@ -8,4 +8,5 @@
     <string name="app_name">Grazer User Data</string>
     <string name="get_users">Get users</string>
     <string name="profile_photo">Profile Photo</string>
+    <string name="grazer">Grazer</string>
 </resources>

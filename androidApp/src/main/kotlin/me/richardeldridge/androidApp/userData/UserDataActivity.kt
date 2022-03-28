@@ -6,9 +6,8 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
 import me.richardeldridge.androidApp.R
-import me.richardeldridge.shared.pojos.users.Users
+import me.richardeldridge.shared.pojos.users.UserData
 import me.richardeldridge.shared.rest.UserDataRetriever
 import me.richardeldridge.shared.rest.authentication.Authenticator
 import me.richardeldridge.shared.rest.authentication.IAuthenticationObserver
@@ -29,18 +28,19 @@ class UserDataActivity :  IAuthenticationObserver, AppCompatActivity() {
         val getUserDataBtn = findViewById<Button>(R.id.getUsers)
         val userDataListView = findViewById<ListView>(R.id.userDataListView)
 
-        val callback = object : Callback<Users> {
-            override fun onFailure(call: Call<Users>, t:Throwable) {
+        val callback = object : Callback<UserData> {
+            override fun onFailure(call: Call<UserData>, t:Throwable) {
                 println("ERROR - failure whilst getting users data")
                 Log.e("MainActivity", "Problem calling Github API {${t.message}}")
                 Toast.makeText(this@UserDataActivity, "Error retrieving user data!", Toast.LENGTH_LONG).show()
             }
 
-            override fun onResponse(call: Call<Users>, response: Response<Users>) {
+            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
                 response.isSuccessful.let {
-                    val resultList = ArrayList<Users>()
-                    println(response.body().toString())
-                    resultList.add(Gson().fromJson(response.body().toString(), Users::class.java))
+                    val resultList = ArrayList<UserData>()
+                    println("body: ".plus(response.body().toString()))
+                    println("response: ".plus(response.toString()))
+                    resultList.add(response.body()!!)
                     userDataListView.adapter = UserDataAdapter(applicationContext, resultList)
                 }
             }
