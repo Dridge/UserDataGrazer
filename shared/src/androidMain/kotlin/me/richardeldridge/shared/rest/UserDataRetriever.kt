@@ -1,19 +1,20 @@
 package me.richardeldridge.shared.rest
 
 import me.richardeldridge.shared.GrazerService
-import me.richardeldridge.shared.pojos.users.User
+import me.richardeldridge.shared.pojos.users.Users
 import retrofit2.Callback
 
 
 class UserDataRetriever() {
     private val service: GrazerService = GrazerService.retrofit.create(GrazerService::class.java)
 
-    fun getUsers(callback: Callback<User>, bearerToken: String) {
+    fun getUsers(callback: Callback<Users>, bearerToken: String) {
         retrieveUserData(callback, bearerToken)
     }
 
-    private fun retrieveUserData(callback: Callback<User>, token: String) {
-        val call = service.retrieveUserData("application/json", "Bearer $token")
+    private fun retrieveUserData(callback: Callback<Users>, token: String) {
+        println(token)
+        val call = service.retrieveUserData("Bearer $token")
         call.enqueue(callback)
     }
 }

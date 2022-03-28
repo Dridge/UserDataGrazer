@@ -1,4 +1,4 @@
-package me.richardeldridge.shared.rest
+package me.richardeldridge.shared.rest.authentication
 
 import android.util.Log
 import me.richardeldridge.shared.GrazerService
@@ -11,11 +11,25 @@ import retrofit2.Callback
 import retrofit2.Response
 
 /**
+ * Authenticator for the app
  * Sets the token once authenticated
  */
-class Authenticator {
+object Authenticator: IAuthenticationObservable {
+    private var instance = Authenticator
     private val service: GrazerService = retrofit.create(GrazerService::class.java)
-    var token = ""
+
+    override val observers: ArrayList<IAuthenticationObserver> = ArrayList()
+    //Override the setter for the observableToken property
+    private var observableToken = ""
+        set(value) {
+            field = value
+            sendUpdateEvent()
+        }
+
+    fun getInstance(): Authenticator? {
+        return instance
+    }
+
     private val callback = object : Callback<Authenticate> {
         override fun onFailure(call: Call<Authenticate>, t:Throwable) {
             println("ERROR - failed whilst authenticating user")
@@ -23,7 +37,7 @@ class Authenticator {
             throw t
         }
         override fun onResponse(call: Call<Authenticate>, response: Response<Authenticate>) {
-            token = response.body()?.auth?.data?.token.toString()
+            observableToken = response.body()?.auth?.data?.token.toString()
         }
     }
 
@@ -33,7 +47,11 @@ class Authenticator {
     }
 
     fun isAuthenticated(): Boolean {
-       return token.isNotBlank()
+       return observableToken.isNotBlank()
+    }
+
+    fun getToken(): String {
+        return observableToken
     }
 
     private fun getAuthBody(username: String, password: String): String {

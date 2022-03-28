@@ -9,13 +9,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import me.richardeldridge.androidApp.R
-import me.richardeldridge.shared.pojos.users.User
+import me.richardeldridge.shared.pojos.users.Users
+import me.richardeldridge.shared.rest.authentication.Authenticator
+import me.richardeldridge.shared.rest.authentication.IAuthenticationObserver
 
 /**
  * Based on the tutorial explained here: https://www.raywenderlich.com/155-android-listview-tutorial-with-kotlin
  */
-class UserDataAdapter(private val context: Context, private val dataSource: ArrayList<User>) : BaseAdapter() {
-
+class UserDataAdapter(private val context: Context, private val dataSource: ArrayList<Users>) : IAuthenticationObserver, BaseAdapter() {
+    init { //TODO why does this need to be an observer?
+        Authenticator.add(this)
+    }
     private val inflater: LayoutInflater
             = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     override fun getCount(): Int {
@@ -30,29 +34,25 @@ class UserDataAdapter(private val context: Context, private val dataSource: Arra
         return position.toLong()
     }
 
-    /**
-     * Avoid NPE by inflating with use of convertView which is the ListView Item Cache
-     */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        val holder: ViewHolder
+        val holder: MyViewHolder
 
         if (convertView == null) {
             view = inflater.inflate(R.layout.list_user, parent, false)
-            holder = ViewHolder()
+            holder = MyViewHolder()
             holder.nameTextView = view.findViewById(R.id.name) as TextView
             holder.dateOfBirthTextView = view.findViewById(R.id.date_of_birth) as TextView
             holder.userPhotoImageView = view.findViewById(R.id.user_photo) as ImageView
             view.tag = holder
         } else {
             view = convertView
-            holder = convertView.tag as ViewHolder
+            holder = convertView.tag as MyViewHolder
         }
         val nameTextView = holder.nameTextView
         val dateOfBirthTextView = holder.dateOfBirthTextView
         val userPhotoImageView = holder.userPhotoImageView
-
-        val user = getItem(position) as User
+        val user = getItem(position) as Users
 
         nameTextView.text = user.name
         dateOfBirthTextView.text = user.dateOfBirth.toString()
@@ -61,9 +61,13 @@ class UserDataAdapter(private val context: Context, private val dataSource: Arra
         return view
     }
 
-    private class ViewHolder {
+    private class MyViewHolder {
         lateinit var nameTextView: TextView
         lateinit var dateOfBirthTextView: TextView
         lateinit var userPhotoImageView: ImageView
+    }
+
+    override fun update() {
+
     }
 }

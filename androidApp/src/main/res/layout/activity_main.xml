@@ -63,17 +63,6 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content" />
     </LinearLayout>
-    <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
-            android:visibility="gone"
-            android:indeterminate="true"
-            android:indeterminateTintMode="src_atop"
-            android:indeterminateTint="@color/colorPrimaryDark"/>
   </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
