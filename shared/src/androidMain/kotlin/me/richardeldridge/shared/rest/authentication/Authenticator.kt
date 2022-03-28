@@ -26,7 +26,7 @@ object Authenticator: IAuthenticationObservable {
             sendUpdateEvent()
         }
 
-    fun getInstance(): Authenticator? {
+    fun getInstance(): Authenticator {
         return instance
     }
 

@@ -1,65 +1,44 @@
 package me.richardeldridge.androidApp.userData
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View.INVISIBLE
 import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import me.richardeldridge.androidApp.R
-import me.richardeldridge.shared.pojos.users.UserData
+import me.richardeldridge.androidApp.R.id.getUsers
+import me.richardeldridge.androidApp.R.id.userDataListView
+import me.richardeldridge.androidApp.R.layout.activity_userdata
+import me.richardeldridge.shared.rest.IUserDataObserver
 import me.richardeldridge.shared.rest.UserDataRetriever
 import me.richardeldridge.shared.rest.authentication.Authenticator
-import me.richardeldridge.shared.rest.authentication.IAuthenticationObserver
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-
-class UserDataActivity :  IAuthenticationObserver, AppCompatActivity() {
-    private val userDataRetriever = UserDataRetriever()
+class UserDataActivity :  IUserDataObserver, AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Add this as an observer to the authentication
-        val auth = Authenticator.getInstance()
-        auth?.add(this)
-        setContentView(R.layout.activity_userdata)
-
-        val getUserDataBtn = findViewById<Button>(R.id.getUsers)
-        val userDataListView = findViewById<ListView>(R.id.userDataListView)
-
-        val callback = object : Callback<UserData> {
-            override fun onFailure(call: Call<UserData>, t:Throwable) {
-                println("ERROR - failure whilst getting users data")
-                Log.e("MainActivity", "Problem calling Github API {${t.message}}")
-                Toast.makeText(this@UserDataActivity, "Error retrieving user data!", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
-                response.isSuccessful.let {
-                    val resultList = ArrayList<UserData>()
-                    println("body: ".plus(response.body().toString()))
-                    println("response: ".plus(response.toString()))
-                    resultList.add(response.body()!!)
-                    userDataListView.adapter = UserDataAdapter(applicationContext, resultList)
-                }
-            }
-        }
+        setContentView(activity_userdata)
+        UserDataRetriever.add(this)
+        val getUserDataBtn = findViewById<Button>(getUsers)
         getUserDataBtn.setOnClickListener {
-            if(auth?.isAuthenticated() ==true) {
+            if(Authenticator.getInstance().isAuthenticated()) {
                 Toast.makeText(this@UserDataActivity, "Lets get that data!", Toast.LENGTH_LONG).show()
-                userDataRetriever.getUsers(callback, Authenticator.getToken())
+                UserDataRetriever.getInstance().populateUserData(Authenticator.getToken())
+                //Hide the button to prevent a second click
+                getUserDataBtn.visibility = INVISIBLE
             } else {
-                Toast.makeText(this@UserDataActivity, "Waiting log in...", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@UserDataActivity, "Wait, still logging in...", Toast.LENGTH_LONG).show()
             }
         }
     }
 
     /**
-     * Once authenticated update views or buttons that are permitted
-     * And if the token is removed/invalidated disable them
+     * Once userdata is recieved updat the listview adapter, just once
+     *
      */
     override fun update() {
-        //do nothing
+        val userDataListView = findViewById<ListView>(userDataListView)
+        userDataListView.adapter = UserDataAdapter(applicationContext,
+            UserDataRetriever.getInstance().getUserData())
+        Toast.makeText(this@UserDataActivity, "Data retrieved!", Toast.LENGTH_LONG).show()
     }
 }

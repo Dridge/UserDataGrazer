@@ -21,8 +21,7 @@ class MainActivity : IAuthenticationObserver, AppCompatActivity() {
         val password = findViewById<EditText>(R.id.password)
         val reset = findViewById<Button>(R.id.reset)
         val submit = findViewById<Button>(R.id.submit)
-        val auth = Authenticator.getInstance()
-        auth?.add(this)
+        Authenticator.getInstance().add(this)
         reset.setOnClickListener {
             resetLogin(username, password)
             Toast.makeText(this@MainActivity, "Reset login details.", Toast.LENGTH_LONG).show()
@@ -33,7 +32,7 @@ class MainActivity : IAuthenticationObserver, AppCompatActivity() {
             if (isUsernameOrPasswordBlank(usernameString, passwordString)) {
                 Toast.makeText(this@MainActivity, "Please enter username and password.", Toast.LENGTH_LONG).show()
             } else {
-                runBlocking { auth?.login(usernameString, passwordString) }
+                runBlocking { Authenticator.getInstance().login(usernameString, passwordString) }
                 val intent = Intent(this, UserDataActivity::class.java)
                 startActivity(intent)
                 resetLogin(username, password)
@@ -54,8 +53,8 @@ class MainActivity : IAuthenticationObserver, AppCompatActivity() {
     }
 
     override fun update() {
-        if (Authenticator.getInstance()?.isAuthenticated() == true) {
-            Toast.makeText(this@MainActivity, "Welcome!", Toast.LENGTH_LONG).show()
+        if (Authenticator.getInstance().isAuthenticated()) {
+            Toast.makeText(this@MainActivity, "You are signed in, welcome!", Toast.LENGTH_LONG).show()
         } else  {
             Toast.makeText(this@MainActivity, "Login denied, are your details correct?", Toast.LENGTH_LONG).show()
         }

@@ -7,24 +7,29 @@
         android:layout_height="match_parent"
         tools:context=".userData.UserDataActivity">
     <LinearLayout
-            android:id="@+id/ll_main_layout"
+            android:id="@+id/listMode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:background="#FFFFFF"
             android:padding="25dp"
             android:orientation="vertical">
         <ListView
-            android:id="@+id/userDataListView"
-            android:layout_width="0dp"
-            android:layout_height="0dp" />
+                android:id="@+id/userDataListView"
+                android:background="@drawable/border_selector"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="40dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:paddingBottom="10dp"
+        />
         <Button style="?android:attr/buttonBarButtonStyle"
-                android:background="@drawable/button_shaded_selector"
+                android:background="@drawable/border_shaded_selector"
                 android:id="@+id/getUsers"
                 android:text="@string/get_users"
                 android:textAllCaps="false"
                 android:textColor="#000000"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
