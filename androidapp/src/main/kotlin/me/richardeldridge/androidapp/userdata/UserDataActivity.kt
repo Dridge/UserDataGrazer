@@ -28,7 +28,7 @@ class UserDataActivity : IAuthenticationObserver, IUserDataObserver, AppCompatAc
 
     private fun setOnClickFunctionality() {
         //differ more complex logic to the update, to cater for authentication withdrawal while waiting for response
-        Toast.makeText(this@UserDataActivity, "Lets get that data!", Toast.LENGTH_LONG).show()
+        Toast.makeText(this@UserDataActivity, "Lets get that data!", Toast.LENGTH_SHORT).show()
         // prevent multiple clicks
         disableButton()
         // request data
@@ -62,14 +62,14 @@ class UserDataActivity : IAuthenticationObserver, IUserDataObserver, AppCompatAc
                         UserDataRetriever.getInstance().getUserData()
                     )
                 }
-                Toast.makeText(this@UserDataActivity, "Data retrieved!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@UserDataActivity, "Data retrieved!", Toast.LENGTH_SHORT).show()
                 // make sure button is disabled
                 disableButton()
             } else {
                 enableButton()
             }
         } else {
-            Toast.makeText(this@UserDataActivity, "User not logged in, log in again please.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this@UserDataActivity, "User not logged in, log in again please.", Toast.LENGTH_SHORT).show()
             disableButton()
         }
     }
