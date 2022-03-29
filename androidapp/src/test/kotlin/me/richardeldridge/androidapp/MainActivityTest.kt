@@ -1,4 +1,4 @@
-package me.richardeldridge.androidApp
+package me.richardeldridge.androidapp
 
 import org.junit.jupiter.api.Test
 

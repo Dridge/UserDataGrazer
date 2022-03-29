@@ -1,4 +1,4 @@
-package me.richardeldridge.androidApp.userData
+package me.richardeldridge.androidapp.userdata
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
-import me.richardeldridge.androidApp.R
+import me.richardeldridge.androidapp.R
 import me.richardeldridge.shared.pojos.users.Users
 
 /**
@@ -16,19 +16,12 @@ import me.richardeldridge.shared.pojos.users.Users
  */
 class UserDataAdapter(private val context: Context,
                       private val dataSource: ArrayList<Users>) : BaseAdapter() {
-    private val inflater: LayoutInflater
-            = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    override fun getCount(): Int {
-        return dataSource.size
-    }
+    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    override fun getCount(): Int = dataSource.size
 
-    override fun getItem(position: Int): Any {
-        return dataSource[position]
-    }
+    override fun getItem(position: Int): Any = dataSource[position]
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -52,7 +45,8 @@ class UserDataAdapter(private val context: Context,
 
         nameTextView.text = user.name
         dateOfBirthTextView.text = user.dateOfBirth.toString()
-        Picasso.with(context).load(user.profileImage).placeholder(R.mipmap.ic_launcher).into(userPhotoImageView)
+        Picasso.with(context).load(user.profileImage).placeholder(R.mipmap.ic_launcher)
+                .into(userPhotoImageView)
         return view
     }
 

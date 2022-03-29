@@ -4,11 +4,12 @@ import android.util.Log
 import me.richardeldridge.shared.GrazerService
 import me.richardeldridge.shared.pojos.users.UserData
 import me.richardeldridge.shared.pojos.users.Users
+import me.richardeldridge.shared.rest.authentication.Authenticator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-object UserDataRetriever: IUserDataObservable {
+object UserDataRetriever : IUserDataObservable {
     private var instance = UserDataRetriever
     private val service: GrazerService = GrazerService.retrofit.create(GrazerService::class.java)
     override val observers: ArrayList<IUserDataObserver> = ArrayList()
@@ -19,13 +20,14 @@ object UserDataRetriever: IUserDataObservable {
             UserDataRetriever.sendUpdateEvent()
         }
 
-    fun getInstance(): UserDataRetriever {
-        return instance
-    }
+    fun getInstance(): UserDataRetriever = instance
 
-    fun populateUserData(bearerToken: String) {
+    /**
+     * @param bearerToken
+     */
+    fun populateUserData() {
         val callback = object : Callback<UserData> {
-            override fun onFailure(call: Call<UserData>, t:Throwable) {
+            override fun onFailure(call: Call<UserData>, t: Throwable) {
                 println("ERROR - failure whilst getting users data")
                 Log.e("MainActivity", "Problem calling Github API {${t.message}}")
             }
@@ -36,11 +38,14 @@ object UserDataRetriever: IUserDataObservable {
                 }
             }
         }
-        val call = service.retrieveUserData("Bearer $bearerToken")
+        val token = Authenticator.getToken()
+        val call = service.retrieveUserData("Bearer $token")
         call.enqueue(callback)
     }
 
-    fun getUserData(): ArrayList<Users> {
-        return observableUsers
+    fun getUserData(): ArrayList<Users> = observableUsers
+
+    fun isUserDataAvailable(): Boolean {
+        return observableUsers.isNotEmpty()
     }
 }

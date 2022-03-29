@@ -2,9 +2,10 @@ package me.richardeldridge.shared.pojos.auth
 
 import com.google.gson.annotations.SerializedName
 
-
-data class Auth (
-  @SerializedName("data")
-  var data : TokenData? = TokenData()
-
+/**
+ * @property data
+ */
+data class Auth(
+        @SerializedName("data")
+        var data: TokenData? = TokenData()
 )

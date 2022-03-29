@@ -14,48 +14,48 @@ import retrofit2.Response
  * Authenticator for the app
  * Sets the token once authenticated
  */
-object Authenticator: IAuthenticationObservable {
+object Authenticator : IAuthenticationObservable {
     private var instance = Authenticator
     private val service: GrazerService = retrofit.create(GrazerService::class.java)
-
     override val observers: ArrayList<IAuthenticationObserver> = ArrayList()
-    //Override the setter for the observableToken property
+
+    // Override the setter for the observableToken property
     private var observableToken = ""
         set(value) {
             field = value
             sendUpdateEvent()
         }
 
-    fun getInstance(): Authenticator {
-        return instance
-    }
-
     private val callback = object : Callback<Authenticate> {
-        override fun onFailure(call: Call<Authenticate>, t:Throwable) {
+        override fun onFailure(call: Call<Authenticate>, t: Throwable) {
             println("ERROR - failed whilst authenticating user")
             Log.e("Authenticator", "Problem calling Grazer API {${t.message}}")
             throw t
         }
         override fun onResponse(call: Call<Authenticate>, response: Response<Authenticate>) {
-            observableToken = response.body()?.auth?.data?.token.toString()
+            observableToken = response.body()?.auth?.data
+                    ?.token.toString()
         }
     }
 
+    fun getInstance(): Authenticator = instance
+
+    /**
+     * @param username
+     * @param password
+     */
     fun login(username: String, password: String) {
         val jsonMediaType = "application/json; charset=utf-8".toMediaType()
         service.doAuthentication(getAuthBody(username, password).toRequestBody(jsonMediaType)).enqueue(callback)
     }
 
-    fun isAuthenticated(): Boolean {
-       return observableToken.isNotBlank()
-    }
+    /**
+     * @return
+     */
+    fun isAuthenticated(): Boolean = observableToken.isNotBlank()
 
-    fun getToken(): String {
-        return observableToken
-    }
+    fun getToken(): String = observableToken
 
-    private fun getAuthBody(username: String, password: String): String {
-        return "{ \"email\":\"$username\",\"password\":\"$password\"}"
-    }
-
+    private fun getAuthBody(username: String, password: String): String =
+        "{ \"email\":\"$username\",\"password\":\"$password\"}"
 }

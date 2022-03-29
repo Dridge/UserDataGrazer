@@ -7,8 +7,10 @@ Login and then click the button to display user data
 executed from the root folder using gradle, `./gradlew test`
 2. Any non-empty username and password is accepted as long
 as it can be authenticated by the Grazer API
-3. Retrofit and Okhttp3 used for requests and responses with
+3. Retrofit and Okhttp used for requests and responses with
 pojo/data classes
+   - https://square.github.io/okhttp/
+   - https://square.github.io/retrofit/
 4. GsonConverterFactory is used in order to serialize the
 attributes into json with correct field names
 5. Shared module is a remnant from the Multi-platform project
@@ -18,6 +20,11 @@ data is available or authentication is complete
 7. Two main singletons drive the app, Authenticator and
 UserDataRetriever. Both store data once the asynchronous call
 responds. Observers then retrieve that data.
+8. Static code analysis is performed with the diktat tool
+   - diktat generally: https://analysis-dev.github.io/diktat/
+   - running as jar from cli: https://github.com/analysis-dev/diktat#run-as-cli-application
+   - My first time using this tool, but I got it running from my checkout dir like so:
+     `../tools/ktlint -R ../tools/diktat-1.0.3.jar --disabled_rules=standard temp/UserData/shared/src/**/*.kt temp/UserData/androidApp/src/**/*.kt > output.txt`
 
 ## Design
 
@@ -36,6 +43,8 @@ need to wait for the requests to return.
 but I was eager to get the functionality of an MVP first. Along
 the way some tests did help me troubleshoot but in redesign they were
 removed.
+- Convert date of birth from epoch seconds to locale based date
+- A loading spinner to keep the user more informed
 - Coroutines might provide an alternative solution for more dynamic user activities
 - Add a RecycleView instead of just using the UserDataAdapter to allow a refresh
 of the userdata
